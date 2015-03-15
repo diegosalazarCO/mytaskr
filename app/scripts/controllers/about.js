@@ -10,5 +10,4 @@
 angular.module('mytaskrApp')
   .controller('AboutCtrl', function ($scope) {
   		// pass
-    ];
   });
