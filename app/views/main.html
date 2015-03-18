@@ -25,7 +25,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">Mis ideas</h3>
         </div>
-        <div>
+        <div class="panel-body">
 <!--           <p class="input-group" ng-repeat="idea in ideas" style="padding: 5px 20px; cursor: move;">
             <input type="text" ng-model="idea" class="form-control">
             <span class="input-group-btn">
@@ -33,7 +33,14 @@
             </span>
           </p> -->
           <ul ui-sortable  class="list-group" ng-model="ideas">
-            <li class="list-group-item" ng-repeat="idea in ideas">{{ idea }}</li>
+            <li class="list-group-item" ng-repeat="idea in ideas">
+              {{ idea }}
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-xs pull-right" ng-click="eliminarIdea($index)" aria-label="Eliminar">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
+              </span>
+            </li>
           </ul>
         </div>
       </div>
@@ -42,11 +49,28 @@
     <div class="col-md-3">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">To-dos</h3>
+          <h3 class="panel-title">Por Hacer</h3>
+          <button class="btn btn-success btn-xs pull-right" ng-click="abrirTarea()">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
         </div>
-        <div>
+        <div class="panel-body">
+        <form ng-hide="estaOculta" ng-submit="addTarea()">
+              <input type="text" ng-model="tarea" class="form-control input-sm" placeholder="Crea un tarea para tus ideas">
+              <span class="input-group-btn">
+              <!-- <input type="submit" class="btn btn-primary" value="Añadir"> -->
+              <button type="submit" class="btn btn-success btn-sm btn-block" aria-label="Añadir"><span class="glyphicon glyphicon-plus"></span></button>
+              </span> 
+        </form>
           <ul ui-sortable  class="list-group" ng-model="tareas">
-            <li class="list-group-item" ng-repeat="tarea in tareas">{{ tarea }}</li>
+            <li class="list-group-item" ng-repeat="tarea in tareas">
+              {{ tarea }} 
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-xs pull-right" ng-click="eliminarTarea($index)" aria-label="Eliminar"><span class="glyphicon glyphicon-triangle-right"></span></button>
+                <button class="btn btn-default btn-xs pull-right" ng-click="eliminarTarea($index)" aria-label="Eliminar"><span class="glyphicon glyphicon-remove"></span></button>
+                <button class="btn btn-default btn-xs pull-right" ng-click="eliminarTarea($index)" aria-label="Eliminar"><span class="glyphicon glyphicon-ok"></span></button>
+              </span>
+            </li>
           </ul>
         </div>
       </div>
@@ -59,7 +83,7 @@
         </div>
         <div>
           <ul ui-sortable  class="list-group" ng-model="tareas">
-            <li class="list-group-item" ng-repeat="tarea in tareas">{{ tarea }}</li>
+            <li class="list-group-item" ng-repeat="">{{ tarea.haciendo }}</li>
           </ul>
         </div>
       </div>
@@ -72,7 +96,7 @@
         </div>
         <div>
           <ul ui-sortable  class="list-group" ng-model="tareas">
-            <li class="list-group-item" ng-repeat="tarea in tareas">{{ tarea }}</li>
+            <li class="list-group-item" ng-repeat="">{{ tarea.hechas }}</li>
           </ul>
         </div>
       </div>
