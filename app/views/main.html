@@ -33,7 +33,7 @@
             </span>
           </p> -->
           <ul ui-sortable  class="list-group" ng-model="ideas">
-            <li class="list-group-item" ng-repeat="idea in ideas">
+            <li class="list-group-item" ng-repeat="idea in ideas track by $index">
               {{ idea }}
               <span class="input-group-btn">
                 <button class="btn btn-default btn-xs pull-right" ng-click="eliminarIdea($index)" aria-label="Eliminar">
@@ -46,48 +46,61 @@
       </div>
     </div>
 
+    <!-- Lista de To dos -->
     <div class="col-md-3">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Por Hacer</h3>
+          <!-- Agregar tarea -->
           <button class="btn btn-success btn-xs pull-right" ng-click="abrirTarea()">
-              <span class="glyphicon glyphicon-pencil"></span>
-            </button>
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+          <!-- Fin Agregar tarea -->
         </div>
         <div class="panel-body">
+        <!-- Hidden form -->
         <form ng-hide="estaOculta" ng-submit="addTarea()">
               <input type="text" ng-model="tarea" class="form-control input-sm" placeholder="Crea un tarea para tus ideas">
               <span class="input-group-btn">
               <!-- <input type="submit" class="btn btn-primary" value="Añadir"> -->
               <button type="submit" class="btn btn-success btn-sm btn-block" aria-label="Añadir"><span class="glyphicon glyphicon-plus"></span></button>
+              <button class="btn btn-danger btn-block" ng-click="eliminarTodasTareas()" aria-label="Eliminar"><span class="glyphicon glyphicon-remove"></span></button>
               </span> 
         </form>
+        <!-- Fin Hidden form -->
           <ul ui-sortable  class="list-group" ng-model="tareas">
-            <li class="list-group-item" ng-repeat="tarea in tareas">
-              {{ tarea }} 
+            <li class="list-group-item" ng-repeat="tarea in tareas track by $index | 
+            filter: filtroTareaHecha">
+              {{ tarea.titulo }} 
               <span class="input-group-btn">
-                <button class="btn btn-default btn-xs pull-right" ng-click="eliminarTarea($index)" aria-label="Eliminar"><span class="glyphicon glyphicon-triangle-right"></span></button>
                 <button class="btn btn-default btn-xs pull-right" ng-click="eliminarTarea($index)" aria-label="Eliminar"><span class="glyphicon glyphicon-remove"></span></button>
-                <button class="btn btn-default btn-xs pull-right" ng-click="eliminarTarea($index)" aria-label="Eliminar"><span class="glyphicon glyphicon-ok"></span></button>
               </span>
             </li>
           </ul>
         </div>
       </div>
     </div>
+    <!-- Fin Lista de To dos -->
 
+    <!-- Lista de "Haciendo" -->
     <div class="col-md-3">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Haciendo</h3>
         </div>
-        <div>
+        <div class="panel-body">
           <ul ui-sortable  class="list-group" ng-model="tareas">
-            <li class="list-group-item" ng-repeat="">{{ tarea.haciendo }}</li>
+            <li class="list-group-item" ng-repeat="tarea in tareas track by $index">
+              {{ tarea.titulo }}
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-xs pull-right" ng-click="tareaHecha($index)" aria-label="Eliminar"><span class="glyphicon glyphicon-ok"></span></button>
+              </span>
+            </li>
           </ul>
         </div>
       </div>
     </div>
+    <!-- Fin Lista de "Haciendo" -->
 
     <div class="col-md-3">
       <div class="panel panel-default">
@@ -96,7 +109,7 @@
         </div>
         <div>
           <ul ui-sortable  class="list-group" ng-model="tareas">
-            <li class="list-group-item" ng-repeat="">{{ tarea.hechas }}</li>
+            <li class="list-group-item" ng-repeat="">{{ tarea }}</li>
           </ul>
         </div>
       </div>
