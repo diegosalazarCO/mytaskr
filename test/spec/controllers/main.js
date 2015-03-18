@@ -32,4 +32,21 @@ describe('Controller: MainCtrl', function () {
     scope.eliminarTarea(0);
     expect(scope.tareas.length).toBe(0);
   });
+
+  it('tareas No debe tener items al empezar', function () {
+    expect(scope.ideas.length).toBe(0);
+  });
+
+  it('Debe añadir un item a las ideas', function () {
+    scope.idea = 'test1';
+    scope.addIdeas();
+    expect(scope.ideas.length).toBe(1);
+  });
+
+  it('Debe añadir un item a las ideas y luego eliminarlo', function () {
+    scope.idea = 'test2';
+    scope.addIdeas();
+    scope.eliminarIdea(0);
+    expect(scope.ideas.length).toBe(0);
+  });
 });
