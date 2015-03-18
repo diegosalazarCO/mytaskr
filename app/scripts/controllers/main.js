@@ -16,6 +16,8 @@ angular.module('mytaskrApp')
     $scope.tareas = stackTareas && stackTareas.split('\n') || [];
     $scope.ideas = stackIdeas && stackIdeas.split('\n') || [];
 
+    $scope.estaOculta = true;
+
     $scope.$watch('tareas', function () {
        localStorageService.add('tareas', $scope.tareas.join('\n'));
        }, true);
@@ -32,6 +34,7 @@ angular.module('mytaskrApp')
     $scope.addTarea = function () {
     	$scope.tareas.push($scope.tarea);
     	$scope.tarea = '';
+      $scope.estaOculta = true;
     };
 
     $scope.eliminarTarea = function (index) {
@@ -40,5 +43,9 @@ angular.module('mytaskrApp')
 
     $scope.eliminarIdea = function (index) {
       $scope.ideas.splice(index, 1);
+    };
+
+    $scope.abrirTarea = function () {
+      $scope.estaOculta = false;
     };
   });
