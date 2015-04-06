@@ -19,9 +19,9 @@ angular.module('mytaskrApp')
     $scope.estaOculta = true;
 
     $scope.$watch('tareas', function (newValue, oldValue) {
-       if (newValue != oldValue) {
+       if (newValue !== oldValue) {
         localStorage.setItem('tareas', JSON.stringify(newValue));
-       };
+       }
        }, true);
 
     $scope.$watch('ideas', function (){
@@ -77,6 +77,6 @@ angular.module('mytaskrApp')
     };
 
     $scope.eliminarTodasTareas = function () {
-      return localStorageService.remove('tareas');
+      return localStorage.remove('tareas');
     };
   });
