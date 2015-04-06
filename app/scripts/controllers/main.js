@@ -8,39 +8,32 @@
  * Controller of the mytaskrApp
  */
 angular.module('mytaskrApp')
-  .controller('MainCtrl', function ($scope, localStorageService, $filter) {
+  .controller('MainCtrl', function ($scope) {
 
-  	var stackTareas = localStorageService.get('tareas'); 
-    var stackIdeas = localStorageService.get('ideas');
+    var stackTareas = localStorage.getItem('tareas'); 
+    var stackIdeas = localStorage.getItem('ideas');
 
     //$scope.tareas = stackTareas || [];
     $scope.ideas = stackIdeas && stackIdeas.split('\n') || [];
-    $scope.tareas = (localStorage.getItem('tareas')!==null) ? JSON.parse($scope.stackTareas) : [ {titulo: 'Completar To dos de App', hecha: false}];
+    $scope.tareas = JSON.parse(stackTareas) || [];
     $scope.estaOculta = true;
 
-    $scope.$watch('tareas', function () {
-       localStorageService.set('tareas', JSON.stringify($scope.tareas));
+    $scope.$watch('tareas', function (newValue, oldValue) {
+       if (newValue != oldValue) {
+        localStorage.setItem('tareas', JSON.stringify(newValue));
+       };
        }, true);
 
     $scope.$watch('ideas', function (){
-      localStorageService.add('ideas', $scope.ideas.join('\n'));
+      localStorage.setItem('ideas', $scope.ideas.join('\n'));
     }, true);
 
-  //   $scope.todos = (localStorage.getItem('todos')!==null) ? JSON.parse($scope.saved) : [ {text: 'Learn AngularJS', done: false}, {text: 'Build an Angular app', done: false} ];
-  // localStorage.setItem('todos', JSON.stringify($scope.todos));
-
-  // $scope.addTodo = function() {
-  //   $scope.todos.push({
-  //     text: $scope.todoText,
-  //     done: false
-  //   });
-  //   $scope.todoText = ''; //clear the input after adding
-  //   localStorage.setItem('todos', JSON.stringify($scope.todos));
-  // };
-
     $scope.addIdea = function () {
-      $scope.ideas.push($scope.idea);
-      $scope.idea = '';
+      if ($scope.idea !== '') {
+        $scope.ideas.push($scope.idea);
+        $scope.idea = '';
+      } else {
+      }
     };
 
     $scope.addTarea = function () {
@@ -50,11 +43,15 @@ angular.module('mytaskrApp')
         //haciendo: false,
         hecha: false
       };
-
-      $scope.tareas.push(nuevoParaHacer);
-    	$scope.tarea = '';
-      $scope.estaOculta = true;
-      localStorageService.add('tareas', JSON.stringify($scope.tareas));
+      if ($scope.tarea !== '') {
+        $scope.tareas.push(nuevoParaHacer);
+        console.log($scope.tareas);
+        $scope.tarea = '';
+        $scope.estaOculta = true;
+        
+      } else {
+      }
+      
     };
 
     $scope.eliminarTarea = function (index) {
@@ -66,7 +63,7 @@ angular.module('mytaskrApp')
     };
 
     $scope.abrirTarea = function () {
-      $scope.estaOculta = false;
+      ($scope.estaOculta) ? $scope.estaOculta = false : $scope.estaOculta = true ;
     };
 
     $scope.tareaHecha = function (index) {
